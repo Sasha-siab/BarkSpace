@@ -2,7 +2,6 @@ const express = require('express')
 const ejs = require('ejs')
 const multer = require('multer')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
 const cookieParser = require('cookie-parser')
 const {Client} = require('pg')
 
@@ -50,3 +49,10 @@ app.get('/', (req, res)=>{
 app.listen(PORT, ()=>{
 	console.log( "port running on 3000")
 })
+
+
+
+
+
+
+
