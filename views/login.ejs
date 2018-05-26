@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign In | Register</title>
+  </head>
+  <body>
+
+    <h3 style="color:red;"><%= errMsg %></h3>
+
+
+    <div id="signIn">
+
+      <h2>Sign In</h2>
+
+
+      <form class="login" action="/login" method="post">
+
+        <label>Username: </label><input type="text" name="username"></br>
+        <label>Password: </label><input type="password" name="password"></br>
+
+        <button type="submit">Sign In</button>
+
+      </form>
+
+    </div>
+    <br>
+    <hr>
+
+    <div id="signUp">
+
+      <h2>Sign Up</h2>
+
+      <form class="signup" action="/register" method="post">
+
+
+        <label>Name: </label><input type="text" name="fname"></br>
+        <label>Surname: </label><input type="text" name="lname"></br>
+        <label>Username: </label><input type="text" name="username"></br>
+        <label>Email: </label><input type="text" name="email"></br>
+        <label>Password: </label><input type="password" name="password"></br>
+        <label>Password 2: </label><input type="password" name="password2"></br>
+
+
+        <button type="submit">Register</button>
+
+      </form>
+
+    </div>
+  </body>
+</html>
