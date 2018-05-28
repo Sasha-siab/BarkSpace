@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt')
 const cookieParser = require('cookie-parser')
 const {Client} = require('pg')
 const Sequelize = require('sequelize')
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
 
 const PORT = process.env.PORT || 3000
 
@@ -29,7 +31,8 @@ const postgres_pass = process.env.DB_PASS;
 // const connectionString = 'postgresql://postgres_user:postgres_pass@localhost:5432/bakspace'
 
 
-// const SequelizeStore = require('connect-session-sequelize')(session.Store)
+
+// ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
 // const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
@@ -83,16 +86,16 @@ sequelize.sync()
 
 // ____________________________________CREATE A RECORD
 
-User.create({
-
-		username: "Admin",
-		fname: "Sasha",
-		lname: "Siabriuk",
-		email: "alexsbrk91@gmail.com",
-		profilepic: "./images/users/placeholder.jpg",
-		password: "barkspace",
-
-});
+// User.create({
+//
+// 		username: "Admin",
+// 		fname: "Sasha",
+// 		lname: "Siabriuk",
+// 		email: "alexsbrk91@gmail.com",
+// 		profilepic: "./images/users/placeholder.jpg",
+// 		password: "barkspace",
+//
+// });
 
 // Post.create
 
@@ -112,8 +115,59 @@ User.create({
 // NOTE should be moved to separate file
 
 var errMsg = '';
+
+
+// ------------------------------------- Passport Init
+
+app.use(cookieParser());
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+passport.use(new Strategy(
+
+	(username, password, cb)=>{
+
+		// use squelize search for first data entry with username feild match
+		User.findOne({
+			where: {
+				username: {
+					// case unsensitive username
+					$iLike : `${username}`
+				}
+			}
+		}).then(data=>{
+			if (!data) {
+				return cb(null,false);
+			} else if (data.password !== password) {
+				return cb(null,false);
+			}
+			return cb(null,data);
+		});
+	}
+
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user,cb){
+	// NOTE?? gets user data from previously defined local strategy, pushes to
+	// user parameter. first callback param is error throw?
+	cb(null, user.id);
+});
+
+passport.deserializeUser(function(id,cb){
+
+	User.findById(id).then(data=>{
+		if(!data) {
+			return cb(null,null);
+		}
+		cb(null,data);
+	});
+
+});
+
 // tempLogin declaired globally to substitute for passportJS
-var tempLogin;
+var tempLogin = '';
 
 
 
@@ -138,36 +192,14 @@ app.get('/signup',(req,res)=>{
 
 // ------------------------------------------------------- Login post
 
-app.post('/login',(req,res)=>{
+app.post('/login',
 
-	// define username from post req
-	let username = req.body.username;
+	passport.authenticate('local', {failureRedirect: '/signup'}),
 
-	// use squelize search for first data entry with username feild match
-	User.findOne({
-		where: {
-			username: {
-				// case sensitive username
-				$like : `${username}`
-			}
-		}
-	}).then(data=>{
-		// if no data then throw error, if password mismatch throw error
-		// else login and render with temporary username
-		// NOTE passportJS and bcrypt go here
-		if (!data) {
-			errMsg = 'Username not found'
-			return res.render('login',{errMsg});
-		} else if (data.dataValues.password === req.body.password) {
-			tempLogin = username;
-			return res.render('profile',{tempLogin});
-		} else {
-			errMsg = 'Username and password mismatch'
-			return res.render('login',{errMsg})
-		}
-	});
+	(req,res)=>{
+		res.redirect('/profile');
 
-})
+});
 
 
 
@@ -198,52 +230,64 @@ app.post('/register',(req,res)=>{
 			}
 		}
 	}).then(data=>{
+		console.log(data);
 		if (data) {
+			console.log('username exists');
 			errMsg = 'Username already in use. Please select a new username';
+			usernameSafe = false;
 			return res.render('login',{errMsg});
+		} else {
+			console.log('username not safe');
+			User.create({
+					username: data.username,
+					fname: data.fname,
+					lname: data.lname,
+					email: data.email,
+					profilepic: "./images/users/placeholder.jpg",
+					password: data.password,
+
+			}).then(function(){
+				return res.redirect('/profile');
+			});
 		}
 	});
 
-	User.create({
-			username: data.username,
-			fname: data.fname,
-			lname: data.lname,
-			email: data.email,
-			profilepic: "./images/users/placeholder.jpg",
-			password: data.password,
 
-	}).then(function(){
-		tempLogin = data.username
-		return res.render('profile',{tempLogin});
-	});
+
+
 
   // client.query(``)
 
-})
+});
 
 
 
-app.get('/profile',(req,res)=>{
+app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
 
-	res.render()
+	var data = req.user.dataValues;
+	res.render('profile', {data: data, tempLogin: 'true'});
 
-})
+});
   // multer
 
 
-
+app.get('/logout',(req,res)=>{
+	req.logout();
+	res.redirect('/');
+})
 
 
 app.get('/', (req, res)=>{
 
- // tempLogin = '';
+	if (req.user) {
+		console.log('user logged in');
+		tempLogin = req.user.dataValues.fname
+		return res.render('home', {tempLogin});
+	}
+ tempLogin = '';
  return res.render('home', {tempLogin})
 
-User.findAll()
-.then(function (x){
-		res.render('home', {tempLogin})
-})
-})
+});
 
 
 
