@@ -32,8 +32,8 @@ const postgres_pass = process.env.DB_PASS;
 // const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
-// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	host: 'localhost',
 	port: '5432',
@@ -112,6 +112,8 @@ User.create({
 // NOTE should be moved to separate file
 
 var errMsg = '';
+// tempLogin declaired globally to substitute for passportJS
+var tempLogin;
 
 
 
@@ -158,7 +160,7 @@ app.post('/login',(req,res)=>{
 			return res.render('login',{errMsg});
 		} else if (data.dataValues.password === req.body.password) {
 			tempLogin = username;
-			return res.render('home',{tempLogin});
+			return res.render('profile',{tempLogin});
 		} else {
 			errMsg = 'Username and password mismatch'
 			return res.render('login',{errMsg})
@@ -211,16 +213,21 @@ app.post('/register',(req,res)=>{
 			password: data.password,
 
 	}).then(function(){
-		let tempLogin = data.username
-		return res.render('home',{tempLogin});
+		tempLogin = data.username
+		return res.render('profile',{tempLogin});
 	});
 
   // client.query(``)
 
 })
 
-  // const accessKey = ""
 
+
+app.get('/profile',(req,res)=>{
+
+	res.render()
+
+})
   // multer
 
 
@@ -229,7 +236,7 @@ app.post('/register',(req,res)=>{
 
 app.get('/', (req, res)=>{
 
- let tempLogin = '';
+ // tempLogin = '';
  return res.render('home', {tempLogin})
 
 User.findAll()
