@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/css/home.css">
+  </head>
+  <body>
+
+    <%- include partials/_nav %>
+
+    <h1> Welcome, <%= tempLogin %></h1>
+    <h3 id="post">New Post</h3>
+    <form class="newPost" action="/userpost" method="post">
+      Selct Post Image | <input type="file" name="postpic" value=""/><br>
+      description | <textarea name="description" rows="4" cols="80"></textarea><br>
+      Tags (separated by commas) | <textarea name="name" rows="2" cols="80"></textarea><br>
+      <button type="submit">Post</button>
+    </form>
+    <hr>
+
+    <div class="my-posts">
+      <h3>My Posts</h3>
+      <hr>
+      <%# space for loop of personal posts %>
+    </div>
+
+    <div class="my-settings">
+      <%# space for altering of personal settings %>
+    </div>
+
+  </body>
+  <footer>
+
+    </script>
+  </footer>
+</html>
