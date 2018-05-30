@@ -8,6 +8,7 @@ const {Client} = require('pg')
 const Sequelize = require('sequelize')
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const gt = require('./components/getTags.js')
 
 const PORT = process.env.PORT || 3000
 
@@ -82,6 +83,8 @@ const Post = sequelize.define('post',
 
 
 sequelize.sync()
+
+
 
 
 // ____________________________________CREATE A RECORD
@@ -274,6 +277,12 @@ app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (
 app.get('/logout',(req,res)=>{
 	req.logout();
 	res.redirect('/');
+});
+  // Tag search
+
+app.post('/userpost', (req, res)=>{
+	let tags = gt.getTags(req.body.description);
+	console.log(tags);
 })
 
 
