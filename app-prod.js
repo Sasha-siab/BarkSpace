@@ -36,8 +36,8 @@ const postgres_pass = process.env.DB_PASS;
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
-// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	host: 'localhost',
 	port: '5432',
@@ -280,21 +280,55 @@ app.get('/logout',(req,res)=>{
 });
   // Tag search
 
-app.post('/userpost', (req, res)=>{
+
+
+	// username: Sequelize.STRING,
+	// profilepic: Sequelize.STRING,
+	// datecreated: Sequelize.STRING,
+	// postpic: Sequelize.STRING,
+	// likes: Sequelize.INTEGER,
+	// description: Sequelize.STRING,
+	// userid: Sequelize.INTEGER,
+	// tags: Sequelize.STRING
+
+app.post('/userpost', require('connect-ensure-login').ensureLoggedIn('/signup'), (req, res)=>{
 	let tags = gt.getTags(req.body.description);
-	console.log(tags);
-})
+
+	let date = new Date().getTime();
+	let data = req.user.dataValues;
+
+	Post.create({
+			username: data.username,
+			profilepic: data.profilepic,
+			datecreated: date,
+			postpic: `./images/posts/placeholderPost${req.body.placeholder}.jpg`,
+			likes: 0,
+			description: req.body.description,
+			userid: data.id,
+			tags: tags
+	}).then(function(){
+		return res.redirect('/');
+	});
+
+});
+
+
+
 
 
 app.get('/', (req, res)=>{
 
-	if (req.user) {
-		console.log('user logged in');
-		tempLogin = req.user.dataValues.fname
-		return res.render('home', {tempLogin});
-	}
- tempLogin = '';
- return res.render('home', {tempLogin})
+	Post.findAll().then(rows=>{
+
+		if (req.user) {
+			console.log('user logged in');
+			tempLogin = req.user.dataValues.fname
+			return res.render('home', {tempLogin: tempLogin, rows: rows});
+		}
+	 tempLogin = '';
+	 return res.render('home', {tempLogin: tempLogin, rows: rows});
+
+	});
 
 });
 

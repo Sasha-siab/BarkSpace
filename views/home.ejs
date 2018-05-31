@@ -10,18 +10,32 @@
 	<h2>Woof Woof <%= tempLogin %></h2>
 
 	<div id="wrapper">
-		<%# Placeholder for main feed %>
 		<div id="feed">
-			<img src="" class="user_pic">
-			<h1>Username</h1>
-			<img src="" class="post_pic">
-			<img src="" class="like_pic">
-			<p>Number of likes</p>
-			<div class="comments">
-				<textarea></textarea>
+
+	<% for (var i = 0; i < rows.length ; i++) { %>
+		<% let data = rows[i].dataValues %>
+		<div class="post" data-postID=<%= data.id %> >
+			<div class="postHead">
+				<img src=<%= data.profilepic %> class="user_pic">
+				<h4 class="username"><%= data.username %> | <%= data.createdAt %></h4>
+
 			</div>
-		</div>
-	</div>
+			<div class="postBody">
+				<img src=<%= data.postpic %> class="post_pic">
+			</div>
+			<div class="postFooter">
+				<img src="" class="like_pic">
+				<p> <%= data.likes %> likes</p>
+				<div class="description"><%= data.description %></div>
+				<div class="comments">
+					<textarea></textarea>
+				</div>
+			</div>
+
+	<% } %>
+
+</div>
+</div>
 
 
 <div id="display">
