@@ -11,12 +11,22 @@
 
     <h1> Welcome, <%= data.fname %></h1>
     <h3 id="post">New Post</h3>
-    <form class="newPost" action="/userpost" method="post">
-      Selct Post Image | <input type="file" name="postpic" value=""/><br>
-      description | <textarea name="description" rows="4" cols="80"></textarea><br>
-      placeholder (1-5) <input type="number" name="placeholder"/>
-      <button type="submit">Post</button>
-    </form>
+
+    <!--______________________Upload Form _________________________-->
+
+
+        <form class="newPost" action="/post-picture" method="post" enctype="multipart/form-data">
+
+          Select Post Image | <input type="file" name="postpic" />
+
+          <button type="submit">Post</button>
+
+        </form>
+
+    <!-- _____________________ ***********_________________________-->
+
+
+
     <hr>
 
     <div class="my-posts">

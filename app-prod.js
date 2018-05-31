@@ -281,34 +281,80 @@ app.get('/logout',(req,res)=>{
   // Tag search
 
 
+	// ______________________________________MULTER ___________________//
 
-	// username: Sequelize.STRING,
-	// profilepic: Sequelize.STRING,
-	// datecreated: Sequelize.STRING,
-	// postpic: Sequelize.STRING,
-	// likes: Sequelize.INTEGER,
-	// description: Sequelize.STRING,
-	// userid: Sequelize.INTEGER,
-	// tags: Sequelize.STRING
 
-app.post('/userpost', require('connect-ensure-login').ensureLoggedIn('/signup'), (req, res)=>{
+	// ______________________________________STORAGE OBJECT DEFINITION
+
+	const storage = multer.diskStorage({
+	destination: './public/images/posts',
+	filename: (req, file, cb)=>{
+	   cb(null, Date.now() + (file.originalname) );
+	}
+	})
+
+	// ______________________________________UPLOAD PROCESS DEFINITION
+
+
+	const upload = multer({storage: storage}).single('postpic')
+
+
+
+	// ______________________________________ UPLOAD
+
+
+app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
+
+	upload(req, res, (err)=>{
+	if(err){
+	console.log(err)
+	}
+	// console.log(req.body)
+	// console.log(req.file)
+
+
+	  Post.create({
+	  // sequelize
+	postpic: req.file.filename
+	})
+	.then((x)=>{
+		// NOTE: something good! NOTE
+	var filename = './images/posts/' + req.file.filename
+	var id = x.dataValues.id
+	return res.render('editPost',{filename:filename,id:id});
+	})
+	  });
+
+});
+
+app.post('/post-details', require('connect-ensure-login').ensureLoggedIn('/signup'), (req, res)=>{
+
 	let tags = gt.getTags(req.body.description);
 
 	let date = new Date().getTime();
 	let data = req.user.dataValues;
 
-	Post.create({
-			username: data.username,
-			profilepic: data.profilepic,
-			datecreated: date,
-			postpic: `./images/posts/placeholderPost${req.body.placeholder}.jpg`,
-			likes: 0,
-			description: req.body.description,
-			userid: data.id,
-			tags: tags
-	}).then(function(){
-		return res.redirect('/');
-	});
+	// this needs to be altered
+
+	Post.find({ where: { id: req.body.id } })
+	  .then(function (post) {
+	    // Check if record exists in db
+	    if (post) {
+	      post.updateAttributes({
+					username: data.username,
+					profilepic: data.profilepic,
+					datecreated: date,
+					likes: 0,
+					description: req.body.description,
+					userid: data.id,
+					tags: tags
+	      }).then(function(){
+						return res.redirect('/');
+				})
+	    } else {
+				console.log('mistake!');
+			}
+	  });
 
 });
 
@@ -331,6 +377,8 @@ app.get('/', (req, res)=>{
 	});
 
 });
+
+
 
 
 
