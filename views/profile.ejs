@@ -17,9 +17,9 @@
 
         <form class="newPost" action="/post-picture" method="post" enctype="multipart/form-data">
 
-          Select Post Image | <input type="file" name="postpic" />
+          Select Post Image | <input type="file" name="postpic" onchange="getButton()" id="imageCall" />
 
-          <button type="submit">Post</button>
+          <button type="submit" id="imgPost">Post</button>
 
         </form>
 
@@ -32,7 +32,9 @@
     <div class="my-posts">
       <h3>My Posts</h3>
       <hr>
-      <%# space for loop of personal posts %>
+
+      <%- include partials/_feeder %>
+
     </div>
 
     <div class="my-settings">
@@ -41,6 +43,15 @@
 
   </body>
   <footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+      $('#imgPost').hide();
+
+      function getButton(){
+        $('#imgPost').show();
+      }
+
 
     </script>
   </footer>

@@ -268,7 +268,21 @@ app.post('/register',(req,res)=>{
 app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
 
 	var data = req.user.dataValues;
-	res.render('profile', {data: data, tempLogin: 'true'});
+
+
+	Post.findAll({
+		where: {
+			username: {
+				$iLike: data.username
+			}
+		}
+	}).then(rows=>{
+
+			tempLogin = req.user.dataValues.fname
+			return res.render('profile', {tempLogin: tempLogin, rows: rows, data: data});
+
+	});
+
 
 });
   // multer
@@ -305,10 +319,16 @@ app.get('/logout',(req,res)=>{
 
 app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
 
+
+
 	upload(req, res, (err)=>{
-	if(err){
-	console.log(err)
-	}
+		// if (!req.file) {
+		// 	console.log('no pic!');
+		// 	return res.send('<h1>Nope!</h1>')
+		// }
+		if(err){
+		console.log(err)
+		}
 	// console.log(req.body)
 	// console.log(req.file)
 
