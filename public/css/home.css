@@ -5,3 +5,37 @@
 nav * {
   float:left;
 }
+
+
+/* Joe Temp Styles */
+
+img.user_pic {
+    width: 60px;
+    border-radius: 50%;
+    border: 2px solid #b1b1b12e;
+    box-shadow: 0px 0px 4px -1px #00000082;
+    float: left;
+}
+
+.postHead {
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid;
+    padding-bottom: 1px;
+    margin-bottom: 10px;
+}
+
+div#feed {
+    width: 70%;
+    padding: 50px;
+}
+
+.postBody {
+    width: 100%;
+}
+
+img.post_pic {
+    width: 100%;
+}
+
+/* End Joe Temp Styles */

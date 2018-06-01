@@ -12,17 +12,21 @@
     <h1> Welcome, <%= data.fname %></h1>
     <h3 id="post">New Post</h3>
 
-    <form class="newPost" action="/userpost" method="post">
+    <!--______________________Upload Form _________________________-->
 
-      Select Post Image | <input type="file" name="postpic" value=""/>
-      <br>
 
-      description | <textarea maxlength="150" name="description" rows="4" 
-      cols="80"></textarea>
-      <br>
+        <form class="newPost" action="/post-picture" method="post" enctype="multipart/form-data">
 
-      <button type="submit">Post</button>
-    </form>
+          Select Post Image | <input type="file" name="postpic" />
+
+          <button type="submit">Post</button>
+
+        </form>
+
+    <!-- _____________________ ***********_________________________-->
+
+
+
     <hr>
 
     <div class="my-posts">

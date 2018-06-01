@@ -36,8 +36,8 @@ const postgres_pass = process.env.DB_PASS;
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
-// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	host: 'localhost',
 	port: '5432',
@@ -280,23 +280,105 @@ app.get('/logout',(req,res)=>{
 });
   // Tag search
 
-app.post('/userpost', (req, res)=>{
+
+	// ______________________________________MULTER ___________________//
+
+
+	// ______________________________________STORAGE OBJECT DEFINITION
+
+	const storage = multer.diskStorage({
+	destination: './public/images/posts',
+	filename: (req, file, cb)=>{
+	   cb(null, Date.now() + (file.originalname) );
+	}
+	})
+
+	// ______________________________________UPLOAD PROCESS DEFINITION
+
+
+	const upload = multer({storage: storage}).single('postpic')
+
+
+
+	// ______________________________________ UPLOAD
+
+
+app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
+
+	upload(req, res, (err)=>{
+	if(err){
+	console.log(err)
+	}
+	// console.log(req.body)
+	// console.log(req.file)
+
+
+	  Post.create({
+	  // sequelize
+	postpic: req.file.filename
+	})
+	.then((x)=>{
+		// NOTE: something good! NOTE
+	var filename = './images/posts/' + req.file.filename
+	var id = x.dataValues.id
+	return res.render('editPost',{filename:filename,id:id});
+	})
+	  });
+
+});
+
+app.post('/post-details', require('connect-ensure-login').ensureLoggedIn('/signup'), (req, res)=>{
+
 	let tags = gt.getTags(req.body.description);
-	console.log(tags);
-})
+
+	let date = new Date().getTime();
+	let data = req.user.dataValues;
+
+	// this needs to be altered
+
+	Post.find({ where: { id: req.body.id } })
+	  .then(function (post) {
+	    // Check if record exists in db
+	    if (post) {
+	      post.updateAttributes({
+					username: data.username,
+					profilepic: data.profilepic,
+					datecreated: date,
+					likes: 0,
+					description: req.body.description,
+					userid: data.id,
+					tags: tags
+	      }).then(function(){
+						return res.redirect('/');
+				})
+	    } else {
+				console.log('mistake!');
+			}
+	  });
+
+});
+
+
+
 
 
 app.get('/', (req, res)=>{
 
-	if (req.user) {
-		console.log('user logged in');
-		tempLogin = req.user.dataValues.fname
-		return res.render('home', {tempLogin});
-	}
- tempLogin = '';
- return res.render('home', {tempLogin})
+	Post.findAll().then(rows=>{
+
+		if (req.user) {
+			console.log('user logged in');
+			tempLogin = req.user.dataValues.fname
+			return res.render('home', {tempLogin: tempLogin, rows: rows});
+		}
+	 tempLogin = '';
+	 return res.render('home', {tempLogin: tempLogin, rows: rows});
+
+	});
 
 });
+
+
 
 
 

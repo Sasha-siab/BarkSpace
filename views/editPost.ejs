@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Edit Post</title>
+  </head>
+  <body>
+    <!--______________________Upload Form _________________________-->
+
+        <form class="newPost" action="/post-details" method="post">
+          <img src= <%= filename %> id= <%= id %> >
+          description | <textarea maxlength="150" name="description" rows="4" cols="80"></textarea><br>
+          <input type="text" name="id"  style="display:none;" value= <%= id %> >
+          <button type="submit" >Post</button>
+
+        </form>
+
+    <!-- _____________________ ***********_________________________-->
+
+  </body>
+</html>
