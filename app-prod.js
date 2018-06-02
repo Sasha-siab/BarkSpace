@@ -38,7 +38,7 @@ const postgres_pass = process.env.DB_PASS;
 const Op = Sequelize.Op
 // using a database name given by heroku
 // keep it clean from user and password
-const sequelize = new Sequelize('postgresql-transparent-20425',  {
+const sequelize = new Sequelize(process.env.DATABASE_URL,  {
 // const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	// host: 'localhost',
