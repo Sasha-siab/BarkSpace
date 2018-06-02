@@ -27,7 +27,7 @@ dotenv.load();
 const postgres_user = process.env.DB_USER;
 const postgres_pass = process.env.DB_PASS;
 
-const client = new Client({ connectionString:process.env.DB_URL, ssl: true})
+// const client = new Client({ connectionString:process.env.DB_URL, ssl: true})
 
 // const connectionString = 'postgresql://postgres_user:postgres_pass@localhost:5432/bakspace'
 
@@ -36,11 +36,15 @@ const client = new Client({ connectionString:process.env.DB_URL, ssl: true})
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+// using a database name given by heroku
+// keep it clean from user and password
+const sequelize = new Sequelize('postgresql-transparent-20425',  {
 // const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
-	host: 'localhost',
-	port: '5432',
+	// host: 'localhost',
+	// port: '5432',
+	logging: true,
+	ssl: true,
 	dialect: 'postgres',
 	operatorsAliases:{
 		$and: Op.and,
@@ -89,16 +93,16 @@ sequelize.sync()
 
 // ____________________________________CREATE A RECORD
 
-// User.create({
-//
-// 		username: "Admin",
-// 		fname: "Sasha",
-// 		lname: "Siabriuk",
-// 		email: "alexsbrk91@gmail.com",
-// 		profilepic: "./images/users/placeholder.jpg",
-// 		password: "barkspace",
-//
-// });
+User.create({
+
+		username: "Admin",
+		fname: "Sasha",
+		lname: "Siabriuk",
+		email: "alexsbrk91@gmail.com",
+		profilepic: "./images/users/placeholder.jpg",
+		password: "barkspace",
+
+});
 
 // Post.create
 
