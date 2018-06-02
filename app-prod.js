@@ -46,6 +46,7 @@ const sequelize = new Sequelize('postgresql-transparent-20425',  {
 	logging: true,
 	ssl: true,
 	dialect: 'postgres',
+	protocol: 'postgres',
 	operatorsAliases:{
 		$and: Op.and,
 		$or: Op.or,
