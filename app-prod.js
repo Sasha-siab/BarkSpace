@@ -247,12 +247,12 @@ app.post('/register',(req,res)=>{
 		} else {
 			console.log('username not safe');
 			User.create({
-					username: data.username,
-					fname: data.fname,
-					lname: data.lname,
-					email: data.email,
+					username: req.body.username,
+					fname: req.body.fname,
+					lname: req.body.lname,
+					email: req.body.email,
 					profilepic: "./images/users/placeholder.jpg",
-					password: data.password,
+					password: req.body.password,
 
 			}).then(function(){
 				return res.redirect('/profile');
