@@ -1,9 +1,9 @@
 <nav>
-  <a href="/"><img src="./images/assets/bs-logo-temp-01.svg" id="logo"></a>
+  <a href="/"><img src="../images/assets/bs-logo-temp-01.svg" id="logo"></a>
 
   <form method="post" action="\searchbar">
       <input type="search" name="search">
-      <select name="catagory">
+      <select name="category">
         <option value="users">Users</option>
         <option value="tags">Tags</option>
       </select>
@@ -13,7 +13,7 @@
 
   <% if (tempLogin.length > 0) { %>
 
-    <a href="/profile"><button>Profile</button></a>
+    <a href="/profile"><button><%= tempLogin %></button></a>
     <a href="/logout"><button>Log out</button></a>
 
   <% } else { %>

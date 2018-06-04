@@ -5,12 +5,12 @@
   <% let data = rows[i].dataValues %>
   <div class="post" data-postID=<%= data.id %> >
     <div class="postHead">
-      <img src=<%= data.profilepic %> class="user_pic">
+      <img src=<%= '.'+data.profilepic %> class="user_pic">
       <h4 class="username"><%= data.username %> | <%= data.createdAt %></h4>
 
     </div>
     <div class="postBody">
-      <img src=<%= "./images/posts/" + data.postpic %> class="post_pic">
+      <img src=<%= "../images/posts/" + data.postpic %> class="post_pic">
     </div>
     <div class="postFooter">
       <img src="" class="like_pic">

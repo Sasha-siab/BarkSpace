@@ -8,7 +8,9 @@ const {Client} = require('pg')
 const Sequelize = require('sequelize')
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+
 const gt = require('./components/getTags.js')
+const tp = require('./components/tagParser.js')
 
 const PORT = process.env.PORT || 3000
 
@@ -32,7 +34,6 @@ const postgres_pass = process.env.DB_PASS;
 // const connectionString = 'postgresql://postgres_user:postgres_pass@localhost:5432/bakspace'
 
 
-
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
@@ -47,6 +48,7 @@ const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 		$or: Op.or,
 		$eq: Op.eq,
 		$regexp: Op.regexp,
+		$iRegexp: Op.iRegexp,
 		$like: Op.like,
 		$iLike: Op.iLike
 	}
@@ -189,7 +191,19 @@ var errMsg = '';
 // NOTE should be moved to separate file
 
 
+// ----------------------------------------------------------------------------- GLOBAL FUNC
 
+var navValidate = function(req,res,rows,renderRoute) {
+	// function for assessing if the user is logged in, and passing relevant information
+	// to the nav bar on each page.
+	if (req.user) {
+		console.log('user logged in');
+		tempLogin = req.user.dataValues.fname
+		return res.render(renderRoute, {tempLogin: tempLogin, rows: rows});
+	}
+	tempLogin = '';
+	return res.render(renderRoute, {tempLogin: tempLogin, rows: rows});
+}
 
 
 // ----------------------------------------------------------------------------- ROUTES
@@ -198,14 +212,16 @@ var errMsg = '';
 app.get('/', (req, res)=>{
 
 		Post.findAll().then(rows=>{
+			rows = rows.reverse();
+		// if (req.user) {
+		// 	console.log('user logged in');
+		// 	tempLogin = req.user.dataValues.fname
+		// 	return res.render('home', {tempLogin: tempLogin, rows: rows});
+		// }
+		// tempLogin = '';
+		// return res.render('home', {tempLogin: tempLogin, rows: rows});
 
-		if (req.user) {
-			console.log('user logged in');
-			tempLogin = req.user.dataValues.fname
-			return res.render('home', {tempLogin: tempLogin, rows: rows});
-		}
-		tempLogin = '';
-		return res.render('home', {tempLogin: tempLogin, rows: rows});
+			navValidate(req,res,rows,'home');
 
 		});
 
@@ -296,9 +312,10 @@ app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (
 			}
 		}
 	}).then(rows=>{
+			rows = rows.reverse();
 
-			tempLogin = req.user.dataValues.fname
-			return res.render('profile', {tempLogin: tempLogin, rows: rows, data: data});
+			navValidate(req,res,rows,'profile');
+
 
 	});
 
@@ -313,6 +330,12 @@ app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (
 app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
 
 	upload(req, res, (err)=>{
+		// console.log(req.body.test)
+		// console.log(req.file.filename)
+		// console.log(req.user.dataValues);
+
+		let tags = gt.getTags(req.body.description);
+		let date = new Date().getTime();
 
 		if(err){
 		console.log(err)
@@ -320,13 +343,21 @@ app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup
 
 	  Post.create({
 	  // sequelize
-			postpic: req.file.filename
+			postpic: req.file.filename,
+			username: req.user.dataValues.username,
+			profilepic: req.user.dataValues.profilepic,
+			datecreated: date,
+			likes: 0,
+			description: req.body.description,
+			userid: req.user.dataValues.id,
+			tags: tags
+
 		})
 		.then((x)=>{
 				// NOTE: something good! NOTE
 			var filename = './images/posts/' + req.file.filename
 			var id = x.dataValues.id
-			return res.render('editPost',{filename:filename,id:id});
+			return res.redirect('/profile');
 		});
 
 	});
@@ -338,9 +369,7 @@ app.post('/post-picture',require('connect-ensure-login').ensureLoggedIn('/signup
 
 app.post('/post-details', require('connect-ensure-login').ensureLoggedIn('/signup'), (req, res)=>{
 
-	let tags = gt.getTags(req.body.description);
 
-	let date = new Date().getTime();
 	let data = req.user.dataValues;
 
 	// two form system because image needs to be accepted through a specific data
@@ -372,33 +401,40 @@ app.post('/post-details', require('connect-ensure-login').ensureLoggedIn('/signu
 app.post('/searchbar', (req,res)=>{
 
 	var searchQ = req.body.search;
-	var catagory = req.body.catagory;
-	var reg = searchQ + '.*';
+	var category = req.body.category;
+	var reg = searchQ+'.*'
 
-	if ( catagory === 'users' ) {
-		Post.findAll({
+
+	if ( category === 'users' ) {
+		User.findAll({
 			where: {
 				 username: {
-					  $regexp: reg
+					  $iRegexp: reg
 				 }
 			}
 		}).then(rows=>{
-			console.log(rows);
-			if (rows) {
+			console.log(rows.length);
+
+			if (rows.length!==0) {
 				return res.render( 'search', {rows:rows,tempLogin:tempLogin} )
-			} else {
-				return res.render( 'search', {rows:false,tempLogin:tempLogin} )
 			}
+			return res.render( 'search', {rows:false,tempLogin:tempLogin} )
+
 		})
-	} else {
-		Post.findOne({
+	} else if ( category === 'tags') {
+		Post.findAll({
 			where: {
 				 tags: {
-						$regexp: reg
+						$iRegexp: reg
 				 }
 			}
 		}).then(rows=>{
-			res.render( 'search', {rows:rows,tempLogin:tempLogin} )
+			let uniqueTags = tp.tagParser(rows,reg);
+			if (rows.length!==0) {
+				return res.render( 'searchTags', {uniqueTags:uniqueTags,tempLogin:tempLogin} );
+			}
+			return res.render( 'searchTags', {uniqueTags:false,tempLogin:tempLogin} );
+
 		})
 	}
 
@@ -406,6 +442,48 @@ app.post('/searchbar', (req,res)=>{
 
 // ~* '^[abc]{3}$';
 
+// ----------------------------------------------------------------------------- PUBLIC USER PAGES
+
+app.get('/user/:username',(req,res)=>{
+	let username = req.params.username;
+
+	Post.findAll({
+		where: {
+			username: {
+				$iLike: username
+			}
+		}
+	}).then(rows=>{
+		navValidate(req,res,rows,'user');
+	})
+
+})
+
+
+app.get('/tags/:tag',(req,res)=>{
+	let tag = req.params.tag;
+	let reg = tag+'.*';
+
+	Post.findAll({
+		where: {
+			tags: {
+				$iRegexp: reg
+			}
+		}
+	}).then(rows=>{
+		// NOTE need navValidate update to take datapass
+
+		if (req.user) {
+			console.log('user logged in');
+			tempLogin = req.user.dataValues.fname
+			return res.render('tag', {tempLogin: tempLogin, rows: rows, tagQuery:tag});
+		}
+		tempLogin = '';
+		return res.render('tag', {tempLogin: tempLogin, rows: rows, tagQuery:tag});
+
+	})
+
+})
 
 app.get('/logout',(req,res)=>{
 	req.logout();
