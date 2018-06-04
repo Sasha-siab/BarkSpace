@@ -1,0 +1,33 @@
+<div id="wrapper">
+  <div id="feed">
+<% if (rows) { %>
+
+<% for (var i = 0; i < rows.length ; i++) { %>
+  <% let data = rows[i].dataValues %>
+  <div class="post" data-postID=<%= data.id %> >
+    <a href="/user/<%= data.username %>">
+      <div class="postHead">
+        <img src=<%= data.profilepic %> class="user_pic">
+        <h4 class="username"><%= data.username %> | <%= data.createdAt %>
+
+        <% if (data.tags) { %>
+          | <%= data.tags %>
+        <% } %>
+
+        </h4>
+      </div>
+    </a>
+    <br/>
+    <hr/>
+    <br/>
+  </div>
+
+  <% } %>
+<% }  else { %>
+
+  <h1> No results! </h1>
+
+  <% } %>
+
+  </div>
+</div>

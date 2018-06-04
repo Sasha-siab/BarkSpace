@@ -1,8 +1,12 @@
 <nav>
   <a href="/"><img src="./images/assets/bs-logo-temp-01.svg" id="logo"></a>
 
-  <form>
+  <form method="post" action="\searchbar">
       <input type="search" name="search">
+      <select name="catagory">
+        <option value="users">Users</option>
+        <option value="tags">Tags</option>
+      </select>
       <button id="btn_search" type="submit">Search</button>
   </form>
 
