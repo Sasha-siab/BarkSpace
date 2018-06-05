@@ -38,4 +38,8 @@ img.post_pic {
     width: 100%;
 }
 
+.clicked {
+  background-color: #ff0000ba;
+}
+
 /* End Joe Temp Styles */

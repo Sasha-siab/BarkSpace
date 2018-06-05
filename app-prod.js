@@ -485,6 +485,30 @@ app.get('/tags/:tag',(req,res)=>{
 
 })
 
+app.post('/like',(req,res)=>{
+	console.log('like triggered route');
+	Post.findById(req.body.postid)
+	.then(post=>{
+		if (post) {
+			post.updateAttributes({
+				likes: post.dataValues.likes+1
+			});
+		}
+	})
+});
+
+app.post('/unlike',(req,res)=>{
+	console.log('unlike triggered route');
+	Post.findById(req.body.postid)
+	.then(post=>{
+		if (post) {
+			post.updateAttributes({
+				likes: post.dataValues.likes-1
+			});
+		}
+	})
+})
+
 app.get('/logout',(req,res)=>{
 	req.logout();
 	res.redirect('/');

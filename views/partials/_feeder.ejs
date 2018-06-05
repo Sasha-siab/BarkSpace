@@ -14,7 +14,9 @@
     </div>
     <div class="postFooter">
       <img src="" class="like_pic">
-      <p> <%= data.likes %> likes</p>
+      <form action='/like' method='post'>
+      <button type="submit" class="likeBtn" name="postid" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
+      </form>
       <div class="description"><%= data.description %></div>
       <div class="comments">
         <textarea></textarea>
