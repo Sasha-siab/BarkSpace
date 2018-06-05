@@ -37,13 +37,12 @@ const postgres_pass = process.env.DB_PASS;
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize(process.env.DATABASE_URL,  {
-// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
-	logging: true,
-	ssl: true,
+	// host: 'localhost',
+	// port: '5432',
 	dialect: 'postgres',
-	protocol: 'postgres',
 	operatorsAliases:{
 		$and: Op.and,
 		$or: Op.or,

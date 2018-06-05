@@ -1,3 +1,4 @@
+
 // Get array of all buttons
 var likeBtns = $('.likeBtn');
 
