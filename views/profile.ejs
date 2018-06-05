@@ -9,7 +9,7 @@
 
     <%- include partials/_nav %>
 
-    <h1> Welcome, <%= data.fname %></h1>
+    <h1> Welcome, <%= tempLogin %></h1>
     <h3 id="post">New Post</h3>
 
     <!--______________________Upload Form _________________________-->
@@ -17,9 +17,9 @@
 
         <form class="newPost" action="/post-picture" method="post" enctype="multipart/form-data">
 
-          Select Post Image | <input type="file" name="postpic" />
-
-          <button type="submit">Post</button>
+          Select Post Image | <input type="file" name="postpic" onchange="getButton()" id="imageCall" />
+          description | <textarea maxlength="150" name="description" rows="4" cols="80"></textarea><br>
+          <button type="submit" id="imgPost">Post</button>
 
         </form>
 
@@ -32,7 +32,9 @@
     <div class="my-posts">
       <h3>My Posts</h3>
       <hr>
-      <%# space for loop of personal posts %>
+
+      <%- include partials/_feeder %>
+
     </div>
 
     <div class="my-settings">
@@ -41,6 +43,19 @@
 
   </body>
   <footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./scripts/likes.js"></script>
+    <script>
+
+  
+
+
+      $('#imgPost').hide();
+
+      function getButton(){
+        $('#imgPost').show();
+      }
+
 
     </script>
   </footer>

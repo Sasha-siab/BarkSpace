@@ -7,35 +7,9 @@
 <body>
 
 	<%- include partials/_nav %>
-	<h2>Woof Woof <%= tempLogin %></h2>
+	<h2>Woof Woof</h2>
 
-	<div id="wrapper">
-		<div id="feed">
-
-	<% for (var i = 0; i < rows.length ; i++) { %>
-		<% let data = rows[i].dataValues %>
-		<div class="post" data-postID=<%= data.id %> >
-			<div class="postHead">
-				<img src=<%= data.profilepic %> class="user_pic">
-				<h4 class="username"><%= data.username %> | <%= data.createdAt %></h4>
-
-			</div>
-			<div class="postBody">
-				<img src=<%= "./images/posts/" + data.postpic %> class="post_pic">
-			</div>
-			<div class="postFooter">
-				<img src="" class="like_pic">
-				<p> <%= data.likes %> likes</p>
-				<div class="description"><%= data.description %></div>
-				<div class="comments">
-					<textarea></textarea>
-				</div>
-			</div>
-
-	<% } %>
-
-</div>
-</div>
+	<%- include partials/_feeder %>
 
 
 <div id="display">
@@ -48,4 +22,10 @@
 
 
 </body>
+
+<footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="./scripts/likes.js"></script>
+</footer>
+
 </html>

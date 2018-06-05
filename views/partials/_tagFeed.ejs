@@ -1,0 +1,27 @@
+<div id="wrapper">
+  <div id="feed">
+  <% if (uniqueTags) { %>
+
+    <% for (var i = 0; i < uniqueTags.length ; i++) { %>
+
+      <% var tagKey = uniqueTags[i].slice(1);  %>
+      <div class="tag-result-container" data-tagID=<%= i %> >
+        <a href="./tags/<%= tagKey %>">
+
+          <h4 class="tag"><%= tagKey %></h4>
+
+        </a>
+        <br/>
+        <br/>
+      </div>
+
+    <% } %>
+
+  <% } else { %>
+
+    <h1> No results! </h1>
+
+  <% } %>
+
+  </div>
+</div>
