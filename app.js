@@ -567,6 +567,17 @@ app.post('/modifypost', require('connect-ensure-login').ensureLoggedIn('/signup'
 
 })
 
+app.post('/delete',(req,res)=>{
+	let id = req.body.postid;
+	Post.destroy({
+   where: {
+      id: id 
+   }
+	 }).then(()=>{
+		 res.redirect('profile');
+	 })
+})
+
 
 app.get('/logout',(req,res)=>{
 	req.logout();
