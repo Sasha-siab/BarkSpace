@@ -37,19 +37,12 @@ const postgres_pass = process.env.DB_PASS;
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-
-// using a database name given by heroku
-// keep it clean from user and password
-const sequelize = new Sequelize(process.env.DATABASE_URL,  {
-// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
+const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	// host: 'localhost',
 	// port: '5432',
-
-	logging: true,
-	ssl: true,
 	dialect: 'postgres',
-	protocol: 'postgres',
 	operatorsAliases:{
 		$and: Op.and,
 		$or: Op.or,
@@ -99,16 +92,16 @@ sequelize.sync()
 
 // ----------------------------------------------------------------------------- CREATE A RECORD
 
-User.create({
-
-		username: "Admin",
-		fname: "Sasha",
-		lname: "Siabriuk",
-		email: "alexsbrk91@gmail.com",
-		profilepic: "./images/users/placeholder.jpg",
-		password: "barkspace",
-
-});
+// User.create({
+//
+// 		username: "Admin",
+// 		fname: "Sasha",
+// 		lname: "Siabriuk",
+// 		email: "alexsbrk91@gmail.com",
+// 		profilepic: "./images/users/placeholder.jpg",
+// 		password: "barkspace",
+//
+// });
 
 
 
@@ -290,12 +283,12 @@ app.post('/register',(req,res)=>{
 		} else {
 			console.log('username safe');
 			User.create({
-					username: req.body.username,
-					fname: req.body.fname,
-					lname: req.body.lname,
-					email: req.body.email,
+					username: data.username,
+					fname: data.fname,
+					lname: data.lname,
+					email: data.email,
 					profilepic: "./images/users/placeholder.jpg",
-					password: req.body.password,
+					password: data.password,
 
 			}).then(function(){
 				return res.redirect('/profile');

@@ -20,7 +20,7 @@ img.user_pic {
 .postHead {
     height: 70px;
     width: 100%;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #00000036;
     padding-bottom: 1px;
     margin-bottom: 10px;
 }
@@ -36,6 +36,10 @@ div#feed {
 
 img.post_pic {
     width: 100%;
+}
+
+.clicked {
+  background-color: #ff0000ba;
 }
 
 /* End Joe Temp Styles */
