@@ -3,24 +3,41 @@
 
 <% for (var i = 0; i < rows.length ; i++) { %>
   <% let data = rows[i].dataValues %>
+
+
   <div class="post" data-postID=<%= data.id %> >
     <div class="postHead">
       <img src=<%= '.'+data.profilepic %> class="user_pic">
       <h4 class="username"><%= data.username %> | <%= data.createdAt %></h4>
+  </div>
 
-    </div>
+
+
     <div class="postBody">
       <img src=<%= "../images/posts/" + data.postpic %> class="post_pic">
     </div>
     <div class="postFooter">
       <img src="" class="like_pic">
+
       <form action='/like' method='post'>
-      <button type="submit" class="likeBtn" name="postid" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
-      </form>
+      <button type="submit" class="likeBtn" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
+    </form>
+
+
       <div class="description"><%= data.description %></div>
+      <div class="comments"> <%= data.comments %> </div>
+
+
+      <form action="/comment" method="post">
       <div class="comments">
-        <textarea></textarea>
+        <textarea placeholder="Type your comment..." class="commentBody"></textarea>
+        <button type="submit" class="commentBtn"  data-postID=<%= data.id %>>Submit</button>
       </div>
+      </form>
+
+
+
+
     </div>
     </div>
 

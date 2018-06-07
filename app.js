@@ -37,8 +37,8 @@ const postgres_pass = process.env.DB_PASS;
 // ---------------------------------- Sequelize Init
 
 const Op = Sequelize.Op
-// const sequelize = new Sequelize('barkspace', postgres_user, postgres_pass, {
-const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
+const sequelize = new Sequelize('barkspace', 'postgres', 'branka123', {
+// const sequelize = new Sequelize('barkspace', 'postgres', 'Giraffes94', {
 
 	// host: 'localhost',
 	// port: '5432',
@@ -83,6 +83,18 @@ const Post = sequelize.define('post',
 	}
 
 )
+
+const Comments1 = sequelize.define('post',
+	{
+		content: Sequelize.STRING,
+		postid: Sequelize.STRING,
+		userid: Sequelize.STRING,
+		profilepic: Sequelize.STRING
+		
+	}
+
+)
+
 
 
 sequelize.sync()
@@ -508,6 +520,19 @@ app.post('/unlike',(req,res)=>{
 		}
 	})
 })
+
+
+
+app.post('/comment', (req, res)=>{
+	console.log(req.body.postid)
+	Post.findById(req.body.postid)
+	.then(post=>{
+
+	})
+})
+
+
+
 
 app.get('/logout',(req,res)=>{
 	req.logout();
