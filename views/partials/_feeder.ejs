@@ -6,8 +6,17 @@
   <div class="post" data-postID=<%= data.id %> >
     <div class="postHead">
       <img src=<%= '.'+data.profilepic %> class="user_pic">
-      <h4 class="username"><%= data.username %> | <%= data.createdAt %></h4>
+      <h4 class="info"><span class="username"><%= data.username %></span> | <span class="date-created"><%= data.createdAt %></span></h4>
+    <%  if (tempLogin.length>0) { %>
 
+      <form action='/edit' method='post'>
+        <button type="submit" name="postid" value=<%= data.id %> >Edit</button>
+      </form>
+      <form action='/delete' method='post'>
+        <button type="submit" name="postid" value=<%= data.id %> >Delete</button>
+      </form>
+
+    <% } %>
     </div>
     <div class="postBody">
       <img src=<%= "../images/posts/" + data.postpic %> class="post_pic">

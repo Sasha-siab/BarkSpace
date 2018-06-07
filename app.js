@@ -198,7 +198,7 @@ var navValidate = function(req,res,rows,renderRoute) {
 	// to the nav bar on each page.
 	if (req.user) {
 		console.log('user logged in');
-		tempLogin = req.user.dataValues.fname
+		tempLogin = req.user.dataValues.username
 		return res.render(renderRoute, {tempLogin: tempLogin, rows: rows});
 	}
 	tempLogin = '';
@@ -440,7 +440,6 @@ app.post('/searchbar', (req,res)=>{
 
 })
 
-// ~* '^[abc]{3}$';
 
 // ----------------------------------------------------------------------------- PUBLIC USER PAGES
 
@@ -508,6 +507,77 @@ app.post('/unlike',(req,res)=>{
 		}
 	})
 })
+
+
+app.post('/edit', require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
+
+	// get post information by postid, render edit page with original data points
+	let postID = req.body.postid
+	console.log(postID)
+
+
+	Post.findById(postID).then(postData=>{
+		res.render('editPost',{postData});
+	});
+
+
+});
+
+
+app.post('/modifypost', require('connect-ensure-login').ensureLoggedIn('/signup'), (req,res)=>{
+
+	upload(req, res, (err)=>{
+		// console.log(req.body.test)
+		// console.log(req.file.filename)
+		// console.log(req.user.dataValues);
+
+		let tags = gt.getTags(req.body.description);
+		let postid = req.body.postid
+
+
+
+		if(err){
+		console.log(err)
+		}
+
+		Post.findById(postid)
+		.then(post=>{
+
+			if (req.file) {
+				var filename = req.file.filename;
+			} else {
+				var filename = req.body.prevpostpic;
+			}
+			console.log(filename);
+			// console.log(req.file.filename);
+			post.updateAttributes({
+				postpic: filename,
+				description: req.body.description,
+				tags: tags
+			}).then(()=>{
+				res.redirect('/profile');
+			})
+
+		})
+
+
+	});
+
+
+
+})
+
+app.post('/delete',(req,res)=>{
+	let id = req.body.postid;
+	Post.destroy({
+   where: {
+      id: id 
+   }
+	 }).then(()=>{
+		 res.redirect('profile');
+	 })
+})
+
 
 app.get('/logout',(req,res)=>{
 	req.logout();
