@@ -1,3 +1,6 @@
+
+/* Joe Temp Styles */
+/*
 #logo {
   width: 50px;
 }
@@ -6,8 +9,6 @@ nav * {
   float:left;
 }
 
-
-/* Joe Temp Styles */
 
 img.user_pic {
     width: 60px;
@@ -42,4 +43,515 @@ img.post_pic {
   background-color: #ff0000ba;
 }
 
+
+img.comment-profpic {
+    width: 50px;
+}
+
+.comment-single * {
+    float: left;
+    padding: 1px;
+}
+
+.comment-single {
+    width: 100%;
+    height: 80px;
+} */
 /* End Joe Temp Styles */
+
+
+/*  buttons */
+
+button {
+    background: white;
+    border-radius: 5px;
+}
+
+
+
+body {
+    /* background-color: whitesmoke; */
+    /* background-color: lightblue; */
+    background-color: #fafafa;
+}
+
+#logo {
+  width: 70px;
+}
+.navbar{
+   padding: 28px 74px 22px;
+}
+nav * {
+  float:left;
+  /* padding: 1.5rem 1rem */
+
+}
+.bg-light{
+    width: 100%;
+    background-color: white !important;
+}
+
+/* Joe Temp Styles */
+
+img.user_pic {
+    width: 60px;
+    border-radius: 50%;
+    border: 2px solid #b1b1b14f;
+    float: left;
+}
+
+/* control the feed div */
+.w3-container, .w3-panel{
+    padding:-0.99em 36px !important;
+    width: 929px;
+    margin: 50px 50px 10px 168px;
+}
+
+.w3-black, .w3-hover-black:hover {
+    color: #fff!important;
+    background-color: #FF5B3F!important;
+    border-radius: 4px
+}
+#wrapper{
+    text-align: center;
+}
+div#feed {
+    width: 100% !important;
+}
+h4 {
+    font-weight: 200;
+    padding: 25px;
+    font-size: 19px;
+}
+button.likeBtn {
+    margin-right: 145px;
+}
+.description {
+    padding-right: 10px;
+}
+.comments {
+    padding: 10px 0 20px 0;
+}
+img.post_pic {
+
+    padding: 20px 0 29px 0;
+}
+textarea.w3-input.w3-border.w3-round {
+    width: 795px;
+}
+select {
+    margin: 0px 10px 0px 10px;
+}
+#btn_search {
+    margin: 0 !important;
+}
+@media screen and (max-width: 500px) {
+    body {
+       width:420px;
+       /* background:none; */
+    }
+.w3-card{
+    box-shadow: none;
+}
+    .w3-container, .w3-panel{
+        width: 300px;
+        padding: 0;
+        margin: 0;
+    }
+div#feed{
+    padding: 0px !important;
+}
+img.post_pic {
+    width: 340px !important;
+    padding: 0px 0 29px 0;
+    margin:  20px 0 29px 0;
+}
+textarea.w3-input.w3-border.w3-round {
+    width: 340px;
+}
+h4 {
+
+    padding: 0px;
+    font-size: 12px;
+}
+.postHead{
+    height: 80px !important;
+}
+
+ }
+ h1.username{
+    text-transform: uppercase;
+ }
+ h1.tags{
+     text-align: center;
+     color: red;
+ }
+
+.postHead {
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid;
+    padding-bottom: 1px;
+    margin-bottom: 10px;
+}
+
+div#feed {
+    width: 70%;
+    padding: 50px;
+}
+
+.postBody {
+    width: 100%;
+}
+
+img.post_pic {
+    width: 100%;
+}
+/* div.myposts{
+    margin-left: 50px
+} */
+
+form.search {
+    display: inherit;
+}
+textarea.w3-input.w3-border.w3-round {
+    width: 200px;
+    height: 39px;
+}
+
+/* CONSTANTS */
+
+h2.title {
+    text-align: center;
+    font-weight: 100;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+    font-size: 40px;
+}
+
+
+/* END ONSTANTS */
+
+/*   Feeder Partial styles   */
+
+
+/* general sizing */
+.post > div {
+    width: 100%;
+    text-align: left;
+}
+
+.post {
+    width: 100%;
+}
+
+.postHead {
+    border: none;
+    margin-bottom: -15px;
+}
+
+.postBody {
+    clear: both;
+}
+
+
+
+/* button styles */
+
+button.editForm {
+    float: left;
+}
+
+button.deleteForm {
+    float: left;
+    margin: 0px 5px;
+}
+
+button.likeBtn {
+    float: left;
+    margin-top: 0px;
+  }
+
+
+/* like styles */
+
+img.like_pic {
+    width: 25px;
+}
+
+.likesContainer * {
+    float: left;
+    margin: 0px 3px;
+}
+
+.likesContainer {
+    margin-left: -3px;
+    margin-top: -15px;
+    width: 100%;
+    height: 25px;
+}
+
+
+/* desc */
+
+.description {
+    width: 100%;
+    padding: 10px 0px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+
+/* comments */
+
+form.userDisable {
+    width: 100%;
+}
+
+textarea.commentBod {
+    width: 100%;
+    border-radius: 7px;
+    border-color: #d0d0d0;
+    padding: 5px;
+}
+
+button.commentBtn {
+    float: right;
+    background: white;
+    border-radius: 5px;
+}
+
+.postFooter {
+    margin-bottom: 40px;
+}
+
+
+/* title */
+
+span.username {
+    margin: 0 0 0 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+span.date-created {
+  display: block;
+  float: right;
+}
+
+
+h4.info {
+    padding: 17px 0px;
+    margin-bottom: 20px;
+}
+
+
+/* responive */
+
+@media screen and (min-width:1200px) {
+
+  .post {
+    width:65%;
+    margin-left:17.5%;
+  }
+
+
+}
+
+
+/*   End Feeder Partial styles   */
+
+
+
+/* NAV STYLES */
+
+input[type="search"] {
+    border: solid 1px #80808080;
+    border-radius: 4px;
+    padding: 0px 5px;
+}
+
+button#profileBtn {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0px 7px;
+}
+
+
+nav.navbar.navbar-light.bg-light * {
+    float: left;
+}
+
+img#logo {
+    position: absolute;
+    top: 12px;
+    left: 6px;
+    height: auto;
+    width: 150px;
+}
+
+nav.navbar.navbar-light.bg-light {
+    box-shadow: 0px 0px 11px -2px #80808073;
+}
+
+
+/* END NAV STYLES */
+
+/* PROFILE STYLES */
+
+
+
+.newPostWrapper {
+    width: 100%;
+    padding: 0px 15%;
+}
+
+textarea {
+    width: 100%;
+}
+
+h3.subtitle {
+    margin-bottom: -23px;
+    height: 48px;
+    text-align: center;
+    font-size: 35px;
+    letter-spacing: 1px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+}
+
+input#imageCall {margin-bottom: 13px;}
+
+button#imgPost {
+    float: right;
+}
+
+/* END PROFILE STYLES */
+
+
+/* SEACH RESULTS */
+
+.searchItem > h4.username {
+    color: black;
+    float: left;
+    font-size: 25px;
+    letter-spacing: 1px;
+    padding: 20px;
+    margin-top: -10px;
+}
+
+.searchItem {
+    clear: both;
+    margin: 31px 0px;
+    height: 10px;
+}
+
+
+
+/* END SEARCH RESULTS */
+
+/* EDIT POST */
+
+
+.editWrapper {
+    width: 75%;
+    text-align: center;
+    margin-left: 12.5%;
+    margin-top: 50px;
+}
+
+button {
+    float: right;
+}
+
+
+/* END EDIT POST */
+
+/* COMMENTS */
+
+.commentItem > h4.username {
+    color: black;
+    float: left;
+    font-size: 25px;
+    letter-spacing: 1px;
+    padding: 20px;
+    margin-top: -10px;
+}
+
+.commentItem {
+    clear: both;
+    margin: 31px 0px;
+    height: 10px;
+}
+
+img.user_pic {
+    width: 60px;
+    border-radius: 50%;
+    border: 2px solid #b1b1b14f;
+    float: left;
+    clear: both;
+    margin: 0px 15px 0px -5px;
+}
+
+.commentItem > a > h4.username {
+    color: #000000;
+    margin-bottom: -7px;
+    /* margin-bottom: 10px; */
+}
+
+.commentsWrapper {
+    width: 75%;
+    margin-left: 12.5%;
+}
+
+.commentItem {
+    height: 80px;
+}
+
+h6 {
+    color: black;
+}
+
+/* END COMMENTS */
+
+/* SIGN UP | SIGN IN */
+
+div#title {
+    font-family: sans-serif;
+}
+
+.portalInputs {
+    border-radius: 3px !important;
+    padding: 15px 7px !important;
+}
+
+input#signInBtn {
+    background: #072fad9c;
+}
+
+div#signUpMsg {
+    font-family: sans-serif;
+}
+
+input#signUpBtn {
+      background: #072fad9c;
+      border-radius: 3px !important;
+}
+
+div#signInMsg {
+    font-family: sans-serif;
+}
+
+/* SIGN UP | SIGN IN */

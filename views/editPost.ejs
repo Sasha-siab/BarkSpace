@@ -1,26 +1,52 @@
-
-
-<!-- NOTE NOTE NOTE DEPRECIATED | COULD BE USED AS EDIT POST PAGE POST   -->
-
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Edit Post</title>
+    <%- include partials/_headLinks %>
+    <title>BarkSpace | EDIT POST</title>
   </head>
   <body>
-    <!--______________________Upload Form _________________________-->
 
-        <form class="newPost" action="/post-details" method="post">
-          <img src= <%= filename %> id= <%= id %> >
-          description | <textarea maxlength="150" name="description" rows="4" cols="80"></textarea><br>
-          <input type="text" name="id"  style="display:none;" value= <%= id %> >
-          <button type="submit" >Post</button>
+    <!-- ______________________ Upload Form _________________________ -->
+
+  <!--
+  Pipes in data from a findById call through the edit button click, passed into postData. Change photo button is a hack where we wrap
+  the file select input in a label tag, and bind a click event to the lable which triggers the actual file upload. Two hidden inputs
+  store the postid and prevpostpic.
+   -->
+   <div class="editWrapper">
+
+        <h2 class="title">Edit Post</h2>
+
+        <img src= <%= '../images/posts/' + postData.postpic %> id="postImg" data-postID= <%= postData.id %> style="max-width:50%"></br>
+
+        <form class="newPost" action="/modifypost" method="post" enctype="multipart/form-data">
+          <!-- Credit - https://stackoverflow.com/a/39456669 -->
+          <label for="realBtn" class="fakeBtn">Change Photo<input style="display: none" type="file" name="postpic" id="realBtn" onchange="changePhoto(this)"></label>
+          <label>description</label><textarea maxlength="150" name="description" rows="1" cols="80"><%= postData.description %></textarea><br>
+          <button type="submit">Submit</button>
+
+          <input type="text" name="postid" value=<%= postData.id %> style="display:none;"/>
+          <input type="text" name="prevpostpic" value=<%= postData.postpic %> style="display:none;"/>
+
 
         </form>
 
-    <!-- _____________________ ***********_________________________-->
+      </div>
+    <!-- _____________________ *********** _________________________ -->
 
   </body>
+
+  <footer>
+    <script type="text/javascript">
+
+      function changePhoto(e){
+        // get the target for source change and create a temporary url for the selected image file. Replace the source.
+        // Credit --> https://stackoverflow.com/a/27165977
+        var output = document.getElementById('postImg');
+        output.src = URL.createObjectURL(event.target.files[0]);
+      }
+
+    </script>
+  </footer>
 </html>

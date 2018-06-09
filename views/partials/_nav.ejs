@@ -1,25 +1,25 @@
-<nav>
+<nav class="navbar navbar-light bg-light">
 
   <a href="/"><img src="../images/assets/barkspacelogo.svg" id="logo"></a>
 
   <form method="post" action="\searchbar">
-      <input type="search" name="search">
+      <input type="search" placeholder="seach..." name="search">
       <select name="category">
         <option value="users">Users</option>
         <option value="tags">Tags</option>
       </select>
-      <button id="btn_search" type="submit">Search</button>
+      <button id="btn_search" type="submit" style="display:none"></button>
   </form>
 
 
   <% if (tempLogin.length > 0) { %>
 
-    <a href="/profile"><button><%= tempLogin %></button></a>
-    <a href="/logout"><button>Log out</button></a>
+    <a href="/profile"><button id="profileBtn"><%= tempLogin %></button></a>
+    <a href="/logout"><button id="logoutBtn">Log out</button></a>
 
   <% } else { %>
 
-  <a href="/signup">Login | Register</a>
+  <a href="/signup"> Login | Register </a>
 
   <% } %>
 
