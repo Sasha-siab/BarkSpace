@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="commentsWrapper">
+
+
+        <% if (commentData.length<1) { %>
+          <h1>no comments</h1>
+        <% } else { %>
+          <% for (let comment of commentData) { %>
+            <div class="comment-single">
+            <a href="../user/<%=comment.username%>"><img src=<%=`.${comment.profilepic}`%> class="comment-profpic"><h5><%= comment.username %></h5><h6><%= comment.content %></h6><a>
+            </div>
+          <% } %>
+        <% } %>
+
+    </div>
+
+  </body>
+</html>
