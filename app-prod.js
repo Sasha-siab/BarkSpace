@@ -75,7 +75,7 @@ const User = sequelize.define('user3',
 	password: Sequelize.STRING
 
   }
-)
+);
 
 const Post = sequelize.define('post',
 	{
@@ -89,7 +89,16 @@ const Post = sequelize.define('post',
 		tags: Sequelize.STRING
 	}
 
-)
+);
+
+const Comment = sequelize.define('comment',
+	{
+		postid: Sequelize.STRING,
+		username: Sequelize.STRING,
+		profilepic: Sequelize.STRING,
+		content: Sequelize.STRING
+	}
+);
 
 
 sequelize.sync()
@@ -99,16 +108,16 @@ sequelize.sync()
 
 // ----------------------------------------------------------------------------- CREATE A RECORD
 
-User.create({
-
-		username: "Admin",
-		fname: "Sasha",
-		lname: "Siabriuk",
-		email: "alexsbrk91@gmail.com",
-		profilepic: "./images/users/placeholder.jpg",
-		password: "barkspace",
-
-});
+// User.create({
+//
+// 		username: "Admin",
+// 		fname: "Sasha",
+// 		lname: "Siabriuk",
+// 		email: "alexsbrk91@gmail.com",
+// 		profilepic: "./images/users/placeholder.jpg",
+// 		password: "barkspace",
+//
+// });
 
 
 
@@ -201,16 +210,22 @@ var errMsg = '';
 // ----------------------------------------------------------------------------- GLOBAL FUNC
 
 var navValidate = function(req,res,rows,renderRoute) {
+
 	// function for assessing if the user is logged in, and passing relevant information
 	// to the nav bar on each page.
 	if (req.user) {
 		console.log('user logged in');
 		tempLogin = req.user.dataValues.username
 		return res.render(renderRoute, {tempLogin: tempLogin, rows: rows});
+
+		// return res.render(renderRoute, {tempLogin: tempLogin, rows: rows, commentData: commentData});
 	}
 	tempLogin = '';
 	return res.render(renderRoute, {tempLogin: tempLogin, rows: rows});
+
+	// return res.render(renderRoute, {tempLogin: tempLogin, rows: rows, commentData: commentData});
 }
+
 
 
 // ----------------------------------------------------------------------------- ROUTES
@@ -218,15 +233,12 @@ var navValidate = function(req,res,rows,renderRoute) {
 
 app.get('/', (req, res)=>{
 
+	// find all post and relevent comment data
 		Post.findAll().then(rows=>{
+			// change order from old->new to new->old
 			rows = rows.reverse();
-		// if (req.user) {
-		// 	console.log('user logged in');
-		// 	tempLogin = req.user.dataValues.fname
-		// 	return res.render('home', {tempLogin: tempLogin, rows: rows});
-		// }
-		// tempLogin = '';
-		// return res.render('home', {tempLogin: tempLogin, rows: rows});
+
+
 
 			navValidate(req,res,rows,'home');
 
@@ -290,12 +302,12 @@ app.post('/register',(req,res)=>{
 		} else {
 			console.log('username safe');
 			User.create({
-					username: req.body.username,
-					fname: req.body.fname,
-					lname: req.body.lname,
-					email: req.body.email,
+					username: data.username,
+					fname: data.fname,
+					lname: data.lname,
+					email: data.email,
 					profilepic: "./images/users/placeholder.jpg",
-					password: req.body.password,
+					password: data.password,
 
 			}).then(function(){
 				return res.redirect('/profile');
@@ -319,7 +331,8 @@ app.get('/profile',	require('connect-ensure-login').ensureLoggedIn('/signup'), (
 			}
 		}
 	}).then(rows=>{
-			rows = rows.reverse();
+		rows = rows.reverse();
+
 
 			navValidate(req,res,rows,'profile');
 
@@ -460,7 +473,13 @@ app.get('/user/:username',(req,res)=>{
 			}
 		}
 	}).then(rows=>{
-		navValidate(req,res,rows,'user');
+		if (req.user) {
+			console.log('user logged in');
+			tempLogin = req.user.dataValues.fname
+			return res.render('user', {tempLogin: tempLogin, rows: rows, userQuery:username});
+		}
+		tempLogin = '';
+		return res.render('user', {tempLogin: tempLogin, rows: rows, userQuery:username});
 	})
 
 })
@@ -583,6 +602,40 @@ app.post('/delete',(req,res)=>{
 	 }).then(()=>{
 		 res.redirect('profile');
 	 })
+})
+
+
+
+app.post('/comment',(req,res)=>{
+	console.log(req.body.postid)
+
+	Comment.create({
+		postid: req.body.postid,
+		username: req.user.username,
+		content: req.body.content,
+		profilepic: req.user.profilepic
+	}).then(x=>{
+		console.log(x);
+		res.redirect('/')
+	});
+
+
+})
+
+app.get('/comments/:postid',(req,res)=>{
+	console.log('------------------------------------------------------------------------------------------------------------------------');
+	console.log(req.params.postid);
+	Comment.findAll({
+		where: {
+			postid: {
+				$iLike: req.params.postid
+			}
+		}
+	}).then(commentData=>{
+		console.log(commentData);
+		res.render('comments',{commentData:commentData,tempLogin:tempLogin});
+	})
+
 })
 
 
