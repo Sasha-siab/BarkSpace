@@ -4,9 +4,12 @@
 <% for (var i = 0; i < rows.length ; i++) { %>
   <% let data = rows[i].dataValues %>
   <div class="post" data-postID=<%= data.id %> >
+
     <div class="postHead">
+
       <img src=<%= '.'+data.profilepic %> class="user_pic">
       <h4 class="info"><span class="username"><%= data.username %></span> | <span class="date-created"><%= data.createdAt %></span></h4>
+
     <%  if (tempLogin.length>0) { %>
 
       <form action='/edit' method='post'>
@@ -17,20 +20,39 @@
       </form>
 
     <% } %>
+
     </div>
+
     <div class="postBody">
       <img src=<%= "../images/posts/" + data.postpic %> class="post_pic">
     </div>
+
     <div class="postFooter">
-      <img src="" class="like_pic">
-      <form action='/like' method='post'>
-      <button type="submit" class="likeBtn" name="postid" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
+
+
+
+      <form action='/like' method='post' class="userDisable">
+        <div class="likesContainer" data-likes=<%= data.likes %>>
+        <img src="" class="like_pic">
+          <button type="submit" class="likeBtn" name="postid" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
+        </div>
       </form>
+
+
       <div class="description"><%= data.description %></div>
-      <div class="comments">
-        <textarea></textarea>
-      </div>
+      <div class="commentLink"><a href=<%= `../comments/${data.id}` %> >See Comments</a></div>
+
+      <form action="/comment" method="post" class="userDisable">
+       <div class="commentsContainer">
+         <textarea placeholder="Type your comment..." class="commentBody" name="content"></textarea>
+         <input name="postid" value=<%= data.id %> style="display:none" />
+         <button type="submit" class="commentBtn">Submit</button>
+       </div>
+      </form>
+
+
     </div>
+
     </div>
 
     <% } %>

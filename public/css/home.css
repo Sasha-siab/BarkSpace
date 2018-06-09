@@ -42,4 +42,18 @@ img.post_pic {
   background-color: #ff0000ba;
 }
 
+
+img.comment-profpic {
+    width: 50px;
+}
+
+.comment-single * {
+    float: left;
+    padding: 1px;
+}
+
+.comment-single {
+    width: 100%;
+    height: 80px;
+}
 /* End Joe Temp Styles */

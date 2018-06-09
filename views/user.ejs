@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/home.css">
 
-    <% var username = rows[0].dataValues.username %>
-    <title><%= username %></title>
+    <title><%= userQuery %></title>
   </head>
   <body>
 
     <%- include partials/_nav %>
-    <h1><%= username %></h1>
+    <h1><%= userQuery %></h1>
     <% if (rows.length === 0) { %>
       <h4>No posts! :( woof woof</h4>
     <% } else { %>

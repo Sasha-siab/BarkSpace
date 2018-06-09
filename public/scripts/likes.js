@@ -10,6 +10,10 @@ containing the post id, increment the like datapoint, else
 decriment like datapoint. Then use jquery to replicate change
 on the front end.
 */
+
+if ( $('#profileBtn').length ) {
+console.log('logged in');
+
 likeBtns.each(function(){
   $(this).click(event=>{
     // prevent default click action
@@ -44,3 +48,15 @@ likeBtns.each(function(){
     return false;
   })
 });
+
+} else {
+  // hide text area and submit button
+
+  // hide disable like click event
+
+  // hide like button
+
+  // enable reroute if user is not logged
+
+  // disable /enable event.prevention
+}
