@@ -466,7 +466,13 @@ app.get('/user/:username',(req,res)=>{
 			}
 		}
 	}).then(rows=>{
-		navValidate(req,res,rows,'user');
+		if (req.user) {
+			console.log('user logged in');
+			tempLogin = req.user.dataValues.fname
+			return res.render('user', {tempLogin: tempLogin, rows: rows, userQuery:username});
+		}
+		tempLogin = '';
+		return res.render('user', {tempLogin: tempLogin, rows: rows, userQuery:username});
 	})
 
 })
