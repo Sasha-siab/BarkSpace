@@ -2,14 +2,14 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/home.css">
+    <%- include partials/_headLinks %>
 
     <title><%= tagQuery %></title>
   </head>
   <body>
 
     <%- include partials/_nav %>
-    <h1><%= tagQuery %></h1>
+    <h2 class="title"><%= tagQuery %></h2>
     <% if (rows.length === 0) { %>
       <h4>No posts! :( woof woof</h4>
     <% } else { %>
