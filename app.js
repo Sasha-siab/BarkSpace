@@ -626,7 +626,7 @@ app.get('/comments/:postid',(req,res)=>{
 		}
 	}).then(commentData=>{
 		console.log(commentData);
-		res.render('comments',{commentData});
+		res.render('comments',{commentData:commentData,tempLogin:tempLogin});
 	})
 
 })

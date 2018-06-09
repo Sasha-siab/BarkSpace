@@ -2,11 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/home.css">
+    <%- include partials/_headLinks %>
 
     <title>comments</title>
   </head>
   <body>
+    <%- include partials/_nav %>
+
     <div class="commentsWrapper">
 
 
@@ -14,8 +16,8 @@
           <h1>no comments</h1>
         <% } else { %>
           <% for (let comment of commentData) { %>
-            <div class="comment-single">
-            <a href="../user/<%=comment.username%>"><img src=<%=`.${comment.profilepic}`%> class="comment-profpic"><h5><%= comment.username %></h5><h6><%= comment.content %></h6><a>
+            <div class="commentItem">
+            <a href="../user/<%=comment.username%>"><img src=<%=`.${comment.profilepic}`%> class="user_pic"><h4 class="username"><%= comment.username %></h4><h6><%= comment.content %></h6><a>
             </div>
           <% } %>
         <% } %>

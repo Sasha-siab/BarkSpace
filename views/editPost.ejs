@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/edit-post.css">
-    <title>Edit Post</title>
+    <%- include partials/_headLinks %>
+    <title>BarkSpace | EDIT POST</title>
   </head>
   <body>
 
@@ -14,14 +14,17 @@
   the file select input in a label tag, and bind a click event to the lable which triggers the actual file upload. Two hidden inputs
   store the postid and prevpostpic.
    -->
-   
+   <div class="editWrapper">
+
+        <h2 class="title">Edit Post</h2>
+
         <img src= <%= '../images/posts/' + postData.postpic %> id="postImg" data-postID= <%= postData.id %> style="max-width:50%"></br>
 
         <form class="newPost" action="/modifypost" method="post" enctype="multipart/form-data">
           <!-- Credit - https://stackoverflow.com/a/39456669 -->
           <label for="realBtn" class="fakeBtn">Change Photo<input style="display: none" type="file" name="postpic" id="realBtn" onchange="changePhoto(this)"></label>
-          <label>description | </label><textarea maxlength="150" name="description" rows="1" cols="80"><%= postData.description %></textarea><br>
-          <button type="submit">Edit</button>
+          <label>description</label><textarea maxlength="150" name="description" rows="1" cols="80"><%= postData.description %></textarea><br>
+          <button type="submit">Submit</button>
 
           <input type="text" name="postid" value=<%= postData.id %> style="display:none;"/>
           <input type="text" name="prevpostpic" value=<%= postData.postpic %> style="display:none;"/>
@@ -29,6 +32,7 @@
 
         </form>
 
+      </div>
     <!-- _____________________ *********** _________________________ -->
 
   </body>

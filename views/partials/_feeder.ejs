@@ -8,15 +8,15 @@
     <div class="postHead">
 
       <img src=<%= '.'+data.profilepic %> class="user_pic">
-      <h4 class="info"><span class="username"><%= data.username %></span> | <span class="date-created"><%= data.createdAt %></span></h4>
+      <h4 class="info"><span class="username"><%= data.username %></span><span class="date-created"><%= data.createdAt %></span></h4>
 
     <%  if (tempLogin.length>0) { %>
 
       <form action='/edit' method='post'>
-        <button type="submit" name="postid" value=<%= data.id %> >Edit</button>
+        <button type="submit" class="editForm" name="postid" value=<%= data.id %> >Edit</button>
       </form>
       <form action='/delete' method='post'>
-        <button type="submit" name="postid" value=<%= data.id %> >Delete</button>
+        <button type="submit" class="deleteForm" name="postid" value=<%= data.id %> >Delete</button>
       </form>
 
     <% } %>
@@ -33,18 +33,19 @@
 
       <form action='/like' method='post' class="userDisable">
         <div class="likesContainer" data-likes=<%= data.likes %>>
-        <img src="" class="like_pic">
+        <img src="../images/assets/like.svg" class="like_pic">
           <button type="submit" class="likeBtn" name="postid" data-postID=<%= data.id %> ><%= data.likes %> likes</button>
         </div>
       </form>
 
 
-      <div class="description"><%= data.description %></div>
+      <div class="description"><p><%= data.description %></p></div>
+      <hr/>
       <div class="commentLink"><a href=<%= `../comments/${data.id}` %> >See Comments</a></div>
 
       <form action="/comment" method="post" class="userDisable">
        <div class="commentsContainer">
-         <textarea placeholder="Type your comment..." class="commentBody" name="content"></textarea>
+         <textarea placeholder="Type your comment..." class="commentBod" name="content"></textarea>
          <input name="postid" value=<%= data.id %> style="display:none" />
          <button type="submit" class="commentBtn">Submit</button>
        </div>
@@ -52,6 +53,8 @@
 
 
     </div>
+
+    <hr/>
 
     </div>
 
